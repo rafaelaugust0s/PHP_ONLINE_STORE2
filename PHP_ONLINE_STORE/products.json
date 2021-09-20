@@ -1,0 +1,30 @@
+
+[
+    {
+        "id":1,
+        "brand" : "Dell",
+        "model" :"3040",
+        "form_factor" : "Tower",
+        "front_picture_icons" : "https://i.ibb.co/QrtWRhq/D3040-TWRi5-16-RAM-SSD256.jpg",
+        "price": "330"
+        
+    },
+    {
+        "id":2,
+        "brand" : "Dell",
+        "model" :"3020",
+        "form_factor" : "Monitor",
+        "price": "120"
+
+    },
+    {
+        "id":3,
+        "brand" : "HP",
+        "model" :"G1600",
+        "form_factor" : "Tower",
+        "price": "180"
+
+    }
+
+    
+]
