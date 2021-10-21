@@ -6,7 +6,7 @@ class Database{
     private $host = 'localhost';
     private $db_name = 'cnb_catalogue';
     private $username = 'root';
-    private $password = 'R@faelaugustos';
+    private $password = '';
     private $conn; 
 
     public function connect(){

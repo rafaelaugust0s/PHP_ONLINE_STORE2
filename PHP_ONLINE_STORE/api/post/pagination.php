@@ -1,7 +1,5 @@
 <?php
 
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
 
 include_once  '../../config/Database.php';
 include_once  '../../models/Posts.php';
@@ -16,39 +14,43 @@ $db = $dataBase->connect();
 
 $post = new Post($db);
 
-//Post query
-$result= $post->read();
-//get row count
-
+ $result= $post->pages();
 $num = $result->rowCount();
 
+
 if ($num > 0){
- $arr = array();
- $arr ['data'] = array();
+    $arr = array();
+    $arr ['data'] = array();
+
+ // $num;
+$results_per_page = 1;
 
 
- $results_per_page = 1;
 
+    //determine number of pages available
+    $num_of_pages = ceil($num/$results_per_page);
 
- $num_of_pages = ceil($num/$results_per_page);
+   //determine which page number visitor is currently on
 
+   if (!isset($_GET['page'])){
+        $page = 1;
+   }else{
+       $page = $_GET['page'];
+   }
 
+ $this_page_first_result = ($page -1) * $results_per_page;
  
- if (!isset($_GET['page'])){
-  $page = 1;
-}else{
- $page = $_GET['page'];
-}
 
-$this_page_first_result = ($page -1) * $results_per_page;
+// display number of items per page LIMIT STARTING NUMBER
 
 
- while( $row = $result->fetch(PDO::FETCH_ASSOC)){
-      extract($row);
+while( $row = $result->fetch(PDO::FETCH_ASSOC)){
+    extract($row);
 
-      $row['idbase_sku'] .' '. $row['brand'] .' '. $row['model'] .'<br>' ; 
+     $row['idbase_sku'] .' '. $row['brand'] .' '. $row['model'] .'<br>' ; 
 
-      $post_item = array(
+
+    $post_item = array(
 
 
         'idbase_sku'=>$idbase_sku,
@@ -91,43 +93,26 @@ $this_page_first_result = ($page -1) * $results_per_page;
         'warranty'=> $warranty
 
 
-
-
-
         // 'created_at'=> $created_at,
         // 'updated_at' => $updated_at,
       );
 
+
       //push to DATA
 
       array_push($arr['data'], $post_item); 
- }
-   // turn to json
 
-   echo json_encode($arr);
+    }
+    echo json_encode($arr);
 
+      //display the link to the pages
 
+   for ($page = 1 ; $page<=$num_of_pages; $page++){
 
-   
-}else{
- //echo json_encode(
-
-    array('message' => 'No Posts found'
- );
+    echo '<a href= "pagination.php?page=' . $page .  ' "> ' . $page . '</a>';
+   }
 
 
+  }
 
-
-}
-
-
-// for ($page = 1 ; $page<=$num_of_pages; $page++){
-
-//     '<a href= "read.php?page=' . $page .  ' "> ' . $page . '</a>';
-
-
-
-   
-// }
-
-
+ 
